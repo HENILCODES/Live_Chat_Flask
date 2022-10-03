@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Henil</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+  <link rel="icon" href="{{ url_for('static',filename='Image/Henil.ico')}}" />
+  <link rel="stylesheet" href="{{ url_for('static',filename='CSS/HPhome.css')}}" />
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+  <div class="header">
+    <div class="main">
+      <div class="top">
+        <div class="top1">
+          <span> <a class="logo">Live Chat </a></span>
+          <h3 class="live_User">Welcome <span class="live_U">{% if CR_USER %} {{ CR_USER }} {%else%} Guest {%endif%} </span></h3>
+        </div>
+        <div class="top2">
+          <a href="whatsapp://send?text=Join With Me for Live Chatting : http://henil.42web.io/Live_Chat/ Come Fast."
+            class="invite_a bi bi-whatsapp"></a>
+          <a class="bi bi-arrow-clockwise" href="/" id="ref"></a>
+          {% if CR_USER %} <a href="/logout" type="submit" class="login_log">Log Out</a> {%else%} <a href="/login" type="submit" class="login_log">Log in</a> {%endif%} </a>
+        </div>
+      </div>
+      <div class="chats" id="chat_s">
+        {% for row in chat%}
+        <div class="message">
+          <div class="user">
+            <span> {{ row[1] }}</span>
+          </div>
+          <div class="userchat">
+            <span>{{ row[2] }}</span>
+            <span> <a target="_blank" class="hiper" href="{{ url_for('static',filename='row[4]')}}" > {{ row[3] }}</a></span>
+          </div>
+          <div class="time">
+            <span>{{ row[5] }}</span>
+          </div>
+        </div>
+        {%endfor%}
+        <a href="/" id="ChatScroll"></a>
+      </div>
+      <div class="optionB">
+        <span class="bi bi-filetype-pdf opt" id="pdf_B"></span>
+        <span class="bi bi-chat-dots opt" id="chat_B"></span>
+      </div>
+      <div class="bottom">
+        {% if CR_USER %}
+        <div id="chat_in">
+          <form method="POST" enctype="multipart/form-data" class="form" action="/chat" autocomplete="off">
+            <span class="bi bi-link-45deg" id="option"></span>
+            <div id="form">
+              <input type='text' class='input' id='ChatsBox' name='User_Chat' required placeholder='Type Message' title='Type Message' />
+            </div>
+            <button class="send bi bi-send" name="Done"></button>
+          </form>
+        </div>
+        {%else%}
+        <!-- <script>
+          setInterval(()=>{
+            location.href="/login";
+          },8000)
+        </script> -->
+        <div class="SignUp">
+          <h1>Start Live Chat <a href="/signup" class="login">Sign up</a> </h1>
+        </div>
+        {%endif%}
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
+<script>
+  $(document).ready(function () {
+    document.getElementById("ChatScroll").focus();
+    document.getElementById("ChatsBox").focus();
+
+    $("#option").click(function () {
+      $("#chat_B").slideToggle(200);
+      $("#pdf_B").slideToggle(500);
+    });
+    $("#chat_B").click(function () {
+      $(".opt").hide(500);
+      document.getElementById("form").innerHTML = " <input type='text' class='input' id='ChatsBox' name='User_Chat' required placeholder='Type Message' title='Type Message' />";
+    });
+    $("#pdf_B").click(function () {
+      $(".opt").hide(500);
+      document.getElementById("form").innerHTML = "<input type='file' class='file_in' id='file_input' required name='file'/>";
+    });
+  });
+</script>

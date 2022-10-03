@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+    rel="stylesheet"
+    href="{{url_for('static',filename='CSS/error.css')}}"
+    />
+    <link rel="icon" href="{{url_for('static',filename='Image/Henil.ico')}}" />
+</head>
+<body>
+    <div class="container">
+      <div class="main">
+        {% if signup %}
+        <div class="top">
+          <h1>Sign Up Faild <i class="bi bi-person-x-fill"></i></h1>
+        </div>
+        <div class="box detail">
+            <h2>
+                <span>{{uname}}</span> User Name is Alredy Use. Please Enter different
+                <span> User Name</span>.
+          </h2>
+        </div>
+        <a href="/signup" class="Button"
+          >Re Sign Up <i class="bi bi-arrow-right-short"></i
+        ></a>
+        {%else%}
+        <div class="top">
+            <h1>User Not Found </h1>
+        </div>
+        <div class="box detail">
+            <h2> Your User Name or Password <span>Not Match</span> Please Check.</h2>
+            </div>
+            
+            <a href="/login" class="Button red"> Re Log in</a>
+        {%endif%}
+      </div>
+    </div>
+</body>
+</html>
