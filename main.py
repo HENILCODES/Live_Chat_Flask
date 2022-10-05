@@ -41,7 +41,7 @@ def checkLogin():
             conn.connection.commit()
             curs.close()
         else:
-            return render_template("error.html",signup=False)
+            return render_template("error.html",login=True)
     else:
         return "Bad Request"
     return redirect("/")
@@ -80,9 +80,9 @@ def chat():
         name = session['SESS_NAME']
         Ufile = request.files['file']
         UR_file = request.files['file']
-        Ufile.save("./uploads/"+Ufile.filename) 
+        Ufile.save("./static/uploads/"+Ufile.filename) 
         curs = conn.connection.cursor()
-        curs.execute("insert into message (SENDER,FILE,T_FILE) values (%s,%s,%s)",(name,Ufile.filename,UR_file.filename))
+        curs.execute("insert into message (SENDER,FILE,T_FILE) values (%s,%s,%s)",(name,Ufile.filename,"static/uploads/"+UR_file.filename))
         conn.connection.commit()
         curs.close()
         return redirect("/")
