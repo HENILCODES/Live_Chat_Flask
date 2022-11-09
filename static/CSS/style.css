@@ -2,12 +2,21 @@
     margin: 0;
     padding: 0;
 }
-
+.none{
+    display: none;
+}
 @media only screen and (max-width: 1000px) {
     .header {
         zoom: 1.7;
-        margin-top: 60px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
         transition: 0.5s;
+    }
+    .footer{
+        padding-top: 70px !important;
+        font-size: 22px !important;
     }
 }
 
@@ -109,11 +118,9 @@ body {
 .login_log:hover{
     color: gold;
 }
-a {
+.white{
     color: white;
-    border-radius: 30px;
 }
-
 .logo {
     text-shadow: 0 0 5px gold;
     text-decoration: none;
@@ -201,7 +208,8 @@ a {
     font-size: 21px;
     overflow-wrap: anywhere;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    text-shadow: 0 0 4px white;
+    text-shadow: 0 0 3px white;
+    letter-spacing: 1px;
 }
 
 .hiper:hover {
@@ -309,7 +317,18 @@ a {
     padding: 13px 5px 18px 12px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
+.footer{
+    text-align: center;
+    font-size: 20px;
+    margin-top: 30px;
+    color: #8e8e8e;
+    font-weight: 500;
+}
+.footer .data a{
+    font-weight: bold;
+    color: #8e8e8e;
+    font-family: monospace;
+}
 ::-webkit-scrollbar {
     width: 5px;
     height: 4px;
