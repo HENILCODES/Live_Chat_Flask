@@ -41,7 +41,7 @@ def checkLogin():
             conn.connection.commit()
             curs.close()
         else:
-            return render_template("error.html",login=True)
+            return render_template("error.html",login=False)
     else:
         return "Bad Request"
     return redirect("/")
@@ -62,7 +62,7 @@ def checkSignup():
         try:
             curs.execute("insert into user_detail (USER_NAME, USER_EMAIL, USER_PASSWORD) values(%s,%s,%s)",(name,email,password))
         except:
-            return render_template("error.html",uname = name,signup=True)
+            return render_template("error.html",uname = name,signup=False)
         conn.connection.commit()
         curs.close()
     return redirect("/login")
