@@ -14,7 +14,7 @@
 <body>
     <div class="container">
       <div class="main">
-        {% if signup=False %}
+        {% if signup %}
         <div class="top">
           <h1>Sign Up Faild <i class="bi bi-person-x-fill"></i></h1>
         </div>
@@ -27,7 +27,7 @@
         <a href="/signup" class="Button"
           >Re Sign Up <i class="bi bi-arrow-right-short"></i
         ></a>
-        {%elif login=False %}
+        {%elif login %}
         <div class="top">
             <h1>User Not Found </h1>
         </div>
