@@ -8,8 +8,9 @@ App.secret_key = "HenilCode"
 App.config['MYSQL_HOST'] = "localhost"
 App.config['MYSQL_USER'] = "root"
 App.config['MYSQL_PASSWORD'] = ""
-App.config['MYSQL_DB'] = "flaskDB"
+App.config['MYSQL_DB'] = "flask"
 conn = MySQL(App)
+
 
 @App.route("/")
 def home():
@@ -18,7 +19,7 @@ def home():
     curs = conn.connection.cursor()
     curs.execute("select * from message")
     message = curs.fetchall()
-    return render_template("live.html",CR_USER=session['SESS_NAME'],chat = message)
+    return render_template("live.html", CR_USER=session['SESS_NAME'], chat=message)
 
 
 @App.route("/login")
@@ -28,20 +29,21 @@ def login():
     return render_template("login.html")
 
 
-@App.route("/login/check",methods = ['POST'])
+@App.route("/login/check", methods=['POST'])
 def checkLogin():
     if request.method == "POST":
         name = request.form["U_name"]
         password = request.form["U_password"]
         curs = conn.connection.cursor()
-        curs.execute("select * from user_detail WHERE USER_NAME = %s AND USER_PASSWORD = %s",(name,password))
+        curs.execute(
+            "select * from user_detail WHERE USER_NAME = %s AND USER_PASSWORD = %s", (name, password))
         result = curs.fetchone()
         if result:
             session['SESS_NAME'] = name
             conn.connection.commit()
             curs.close()
         else:
-            return render_template("error.html",login=True)
+            return render_template("error.html", login=True)
     else:
         return "Bad Request"
     return redirect("/")
@@ -52,7 +54,7 @@ def signup():
     return render_template("signup.html")
 
 
-@App.route("/signup/check",methods = ['POST'])
+@App.route("/signup/check", methods=['POST'])
 def checkSignup():
     if request.method == "POST":
         name = request.form["U_name"]
@@ -60,37 +62,43 @@ def checkSignup():
         password = request.form["U_password"]
         curs = conn.connection.cursor()
         try:
-            curs.execute("insert into user_detail (USER_NAME, USER_EMAIL, USER_PASSWORD) values(%s,%s,%s)",(name,email,password))
+            curs.execute(
+                "insert into user_detail (USER_NAME, USER_EMAIL, USER_PASSWORD) values(%s,%s,%s)", (name, email, password))
         except:
-            return render_template("error.html",uname = name,signup=True)
+            return render_template("error.html", uname=name, signup=True)
         conn.connection.commit()
         curs.close()
     return redirect("/login")
 
-@App.route("/chat",methods = ['POST','GET'])
+
+@App.route("/chat", methods=['POST', 'GET'])
 def chat():
-    if request.method == "POST" and 'User_Chat' in request.form:     
+    if request.method == "POST" and 'User_Chat' in request.form:
         name = session['SESS_NAME']
         chat = request.form['User_Chat']
         curs = conn.connection.cursor()
-        curs.execute("insert into message (SENDER,MESSAGE) values (%s,%s)",(name,chat))
+        curs.execute(
+            "insert into message (SENDER,MESSAGE) values (%s,%s)", (name, chat))
         conn.connection.commit()
         curs.close()
     else:
         name = session['SESS_NAME']
         Ufile = request.files['file']
         UR_file = request.files['file']
-        Ufile.save("./static/uploads/"+Ufile.filename) 
+        Ufile.save("./static/uploads/"+Ufile.filename)
         curs = conn.connection.cursor()
-        curs.execute("insert into message (SENDER,FILE,T_FILE) values (%s,%s,%s)",(name,Ufile.filename,"static/uploads/"+UR_file.filename))
+        curs.execute("insert into message (SENDER,FILE,T_FILE) values (%s,%s,%s)",
+                     (name, Ufile.filename, "static/uploads/"+UR_file.filename))
         conn.connection.commit()
         curs.close()
         return redirect("/")
     return redirect("/")
 
+
 @App.route("/logout")
 def logout():
-    session.pop("SESS_NAME",None)
+    session.pop("SESS_NAME", None)
     return redirect("/login")
-    
-App.run(debug=True , host="localhost")
+
+
+App.run(debug=True, host="localhost")
